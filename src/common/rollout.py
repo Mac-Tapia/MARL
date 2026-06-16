@@ -1,7 +1,6 @@
 import numpy as np
 import torch
 from torch.distributions import one_hot_categorical
-import time
 
 
 class RolloutWorker:

@@ -1,16 +1,11 @@
 import numpy as np
 import torch
 from policy.vdn import VDN
-from policy.qmix import QMIX
 from policy.coma import COMA
 from policy.reinforce import Reinforce
 from policy.central_v import CentralV
-from policy.qtran_alt import QtranAlt
-from policy.qtran_base import QtranBase
-from policy.maven import MAVEN
 from torch.distributions import Categorical
 from ac.rnn_policy import rnn_policy
-from ac.misc import gumbel_softmax
 import torch.nn.functional as F
 
 

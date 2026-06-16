@@ -2,10 +2,9 @@ import torch
 import os
 from network.base_net import RNN
 from network.qmix_net_linear import QMixNet  # todo
-from .misc import gumbel_softmax, disable_gradients, enable_gradients
+from .misc import disable_gradients, enable_gradients
 import copy
 import torch.nn.functional as F
-import numpy as np
 
 # torch.cuda.set_device(4)  # id=0, 1, 2 ,4等
 
@@ -60,7 +59,7 @@ class QMIX_PG():
 
         # self.model_dir = args.model_dir + '/' + args.alg + '/' + args.map
 
-        tmp = f'clamp2-5_rewardscale10_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
+        tmp = 'clamp2-5_rewardscale10_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
                                            f'{args.actor_update_delay}_{args.critic_lr}'
 
         self.model_dir = args.model_dir + '/linear_mix/' + 'qmix_sac_cf' + '/' + tmp + '/' + args.map  # _gradclip0.5

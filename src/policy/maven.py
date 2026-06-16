@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 import torch.nn.functional as f
 import os
 from network.maven_net import HierarchicalPolicy, BootstrappedRNN, VarDistribution

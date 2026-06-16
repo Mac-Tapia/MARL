@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 import os
 from network.base_net import RNN
 from network.qtran_net import QtranV, QtranQBase

@@ -1,6 +1,4 @@
 import torch
-import os
-from network.base_net import RNN
 import torch.nn as nn
 import torch.nn.functional as f
 

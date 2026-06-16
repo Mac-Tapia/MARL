@@ -24,7 +24,7 @@ class Runner:
         self.win_rates = []
         self.episode_rewards = []
 
-        tmp = f'clamp2-5_' + f'{args.loss_coeff_entropy}_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
+        tmp = 'clamp2-5_' + f'{args.loss_coeff_entropy}_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
                                                              f'{args.actor_update_delay}_{args.critic_lr}'  # f'clamp2-5_'+  anneal_epsilon
         self.save_path = self.args.result_dir + '/linear_mix/' + 'qmix_ac_total_cf' + '/' + tmp + '/' + args.map
 

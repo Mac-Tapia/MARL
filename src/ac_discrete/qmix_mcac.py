@@ -2,7 +2,6 @@ import torch
 import os
 from network.base_net import RNN
 from network.qmix_net_linear import QMixNet  # todo
-from .misc import gumbel_softmax
 import copy
 import torch.nn.functional as F
 
@@ -39,7 +38,7 @@ class QMIX_PG():
             self.target_qmix_net.cuda()
             self.agent.policy.cuda()
             self.target_policy.cuda()
-        tmp = f'clamp2-5_' + f'{args.loss_coeff_entropy}_' + f'{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
+        tmp = 'clamp2-5_' + f'{args.loss_coeff_entropy}_' + f'{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
                                                              f'{args.actor_update_delay}_{args.critic_lr}'  # f'{args.anneal_epsilon}_'
         self.model_dir = 'linear_mix/' + args.model_dir + '/qmix_ac_total_counterfactual' + '/' + tmp + '/' + args.map
 

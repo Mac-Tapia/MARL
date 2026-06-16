@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 # counterfactual joint networks, 输入state、所有agent的hidden_state、其他agent的动作、自己的编号，输出自己所有动作对应的联合Q值

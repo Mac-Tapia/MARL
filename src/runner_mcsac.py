@@ -28,7 +28,7 @@ class Runner:
         self.episode_rewards = []
 
         # 用来保存plt和pkl
-        tmp = f'clamp2-5_rewardscale10_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
+        tmp = 'clamp2-5_rewardscale10_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
                                            f'{args.actor_update_delay}_{args.critic_lr}_{args.n_epoch}_{args.temp}'  # f'clamp2-5_'+ rewardscale10_
         self.save_path = self.args.result_dir + '/linear_mix/' + 'mcsac' + '/' + tmp + '/' + args.map  # _gradclip0.5
 

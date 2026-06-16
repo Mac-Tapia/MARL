@@ -57,7 +57,7 @@ class QMIX_PG():
 
         # self.model_dir = args.model_dir + '/' + args.alg + '/' + args.map
 
-        tmp = f'clamp2-5_rewardscale10_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
+        tmp = 'clamp2-5_rewardscale10_' + f'{args.buffer_size}_{args.actor_buffer_size}_{args.critic_buffer_size}_{args.actor_train_steps}_{args.critic_train_steps}_' \
                                            f'{args.actor_update_delay}_{args.critic_lr}_{args.n_epoch}_{args.temp}'  # rewardscale10_
 
         self.model_dir = args.model_dir + '/linear_mix/' + '/qmix_sac' + '/' + tmp + '/' + args.map
