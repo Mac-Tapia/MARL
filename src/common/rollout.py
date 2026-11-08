@@ -1,3 +1,4 @@
+from common.action_branches import action_branches
 import numpy as np
 import torch
 from torch.distributions import one_hot_categorical
@@ -57,9 +58,11 @@ class RolloutWorker:
                 else:
                     action = self.agents.choose_action(obs[agent_id], last_action[agent_id], agent_id,
                                                        avail_action, epsilon,None, evaluate)
-                # generate onehot vector of th action
+                # generate onehot vector of th action (one block per branch of a multi-discrete head)
                 action_onehot = np.zeros(self.args.n_actions)
-                action_onehot[action] = 1
+                n_branches, n_levels = action_branches(self.args)
+                for branch, level in enumerate(np.asarray(action, dtype=int).reshape(-1)[:n_branches]):
+                    action_onehot[branch * n_levels + int(level)] = 1
                 actions.append(action)
                 actions_onehot.append(action_onehot)
                 avail_actions.append(avail_action)
@@ -69,7 +72,7 @@ class RolloutWorker:
             win_tag = True if terminated and 'battle_won' in info and info['battle_won'] else False
             o.append(obs)  # list(array)
             s.append(state)  # array (48,)
-            u.append(np.reshape(actions, [self.n_agents, 1]))  # array (3,1)
+            u.append(np.reshape(actions, [self.n_agents, action_branches(self.args)[0]]))  # array (3,1)
             u_onehot.append(actions_onehot)  # list(array)
             avail_u.append(avail_actions)  # list(list)
             r.append([reward])
@@ -98,7 +101,7 @@ class RolloutWorker:
         # if step < self.episode_limit，padding
         for i in range(step, self.episode_limit):
             o.append(np.zeros((self.n_agents, self.obs_shape)))
-            u.append(np.zeros([self.n_agents, 1]))
+            u.append(np.zeros([self.n_agents, action_branches(self.args)[0]]))
             s.append(np.zeros(self.state_shape))
             r.append([0.])
             o_next.append(np.zeros((self.n_agents, self.obs_shape)))
@@ -182,9 +185,11 @@ class CommRolloutWorker:
                 avail_action = self.env.get_avail_agent_actions(agent_id)
                 action = self.agents.choose_action(weights[agent_id], avail_action, epsilon, evaluate)
 
-                # generate onehot vector of th action
+                # generate onehot vector of th action (one block per branch of a multi-discrete head)
                 action_onehot = np.zeros(self.args.n_actions)
-                action_onehot[action] = 1
+                n_branches, n_levels = action_branches(self.args)
+                for branch, level in enumerate(np.asarray(action, dtype=int).reshape(-1)[:n_branches]):
+                    action_onehot[branch * n_levels + int(level)] = 1
                 actions.append(action)
                 actions_onehot.append(action_onehot)
                 avail_actions.append(avail_action)
@@ -194,7 +199,7 @@ class CommRolloutWorker:
             win_tag = True if terminated and 'battle_won' in info and info['battle_won'] else False
             o.append(obs)
             s.append(state)
-            u.append(np.reshape(actions, [self.n_agents, 1]))
+            u.append(np.reshape(actions, [self.n_agents, action_branches(self.args)[0]]))
             u_onehot.append(actions_onehot)
             avail_u.append(avail_actions)
             r.append([reward])
@@ -225,7 +230,7 @@ class CommRolloutWorker:
         # if step < self.episode_limit，padding
         for i in range(step, self.episode_limit):
             o.append(np.zeros((self.n_agents, self.obs_shape)))
-            u.append(np.zeros([self.n_agents, 1]))
+            u.append(np.zeros([self.n_agents, action_branches(self.args)[0]]))
             s.append(np.zeros(self.state_shape))
             r.append([0.])
             o_next.append(np.zeros((self.n_agents, self.obs_shape)))

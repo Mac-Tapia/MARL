@@ -1,3 +1,4 @@
+from common.action_branches import action_branches
 import numpy as np
 import torch
 from policy.vdn import VDN
@@ -79,6 +80,13 @@ class Agents:
             action = self._choose_action_from_softmax(q_value.cpu(), avail_actions, epsilon, evaluate)
         else:  # qmix
             agent_outs[avail_actions == 0.0] = - float("inf")
+            n_branches, n_levels = action_branches(self.args)
+            if n_branches > 1:   # SPEC-015 D-M3-9: one categorical per branch, one level index per equipment
+                probs = F.softmax(agent_outs.view(n_branches, n_levels) / self.args.temp, dim=1)
+                if evaluate:
+                    return probs.max(dim=1)[1].cpu().numpy()
+                probs = probs.detach().cpu().numpy()
+                return np.array([np.random.choice(n_levels, p=row / row.sum()) for row in probs])
 
             #
             if evaluate:

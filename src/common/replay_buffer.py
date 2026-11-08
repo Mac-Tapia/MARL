@@ -1,3 +1,4 @@
+from common.action_branches import action_branches
 import numpy as np
 import threading
 
@@ -17,7 +18,7 @@ class ReplayBuffer:
         self.current_size = 0
         # create the buffer to store info
         self.buffers = {'o': np.empty([self.size, self.episode_limit, self.n_agents, self.obs_shape]),
-                        'u': np.empty([self.size, self.episode_limit, self.n_agents, 1]),
+                        'u': np.empty([self.size, self.episode_limit, self.n_agents, action_branches(args)[0]]),
                         's': np.empty([self.size, self.episode_limit, self.state_shape]),
                         'r': np.empty([self.size, self.episode_limit, 1]),
                         'o_next': np.empty([self.size, self.episode_limit, self.n_agents, self.obs_shape]),
@@ -94,7 +95,7 @@ class ReplayBufferPPO:
         self.current_size = 0
         # create the buffer to store info
         self.buffers = {'o': np.empty([self.size, self.episode_limit, self.n_agents, self.obs_shape]),
-                        'u': np.empty([self.size, self.episode_limit, self.n_agents, 1]),
+                        'u': np.empty([self.size, self.episode_limit, self.n_agents, action_branches(args)[0]]),
                         'u_logp': np.empty([self.size, self.episode_limit, self.n_agents, 1]),
                         's': np.empty([self.size, self.episode_limit, self.state_shape]),
                         'r': np.empty([self.size, self.episode_limit, 1]),
